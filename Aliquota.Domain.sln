@@ -5,6 +5,10 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aliquota.Domain", "Aliquota.Domain\Aliquota.Domain.csproj", "{D8753FF0-FCEE-4FFA-A698-07C725B3EB3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aliquota.Domain.Test", "Aliquota.Domain.Test\Aliquota.Domain.Test.csproj", "{99348B98-1AF1-4CB2-95A9-A9C9DC25E474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aloquota.Domain.Webapp", "Aloquota.Domain.Webapp\Aloquota.Domain.Webapp.csproj", "{0ECAE153-3873-4F51-AC6A-AC3482755793}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{D8753FF0-FCEE-4FFA-A698-07C725B3EB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8753FF0-FCEE-4FFA-A698-07C725B3EB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8753FF0-FCEE-4FFA-A698-07C725B3EB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99348B98-1AF1-4CB2-95A9-A9C9DC25E474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99348B98-1AF1-4CB2-95A9-A9C9DC25E474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99348B98-1AF1-4CB2-95A9-A9C9DC25E474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99348B98-1AF1-4CB2-95A9-A9C9DC25E474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ECAE153-3873-4F51-AC6A-AC3482755793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ECAE153-3873-4F51-AC6A-AC3482755793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ECAE153-3873-4F51-AC6A-AC3482755793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ECAE153-3873-4F51-AC6A-AC3482755793}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
