@@ -24,5 +24,10 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService
             await _produtoFinaneiroRepository.AddProdutoFinanceiroAsync(produto);
             await _produtoFinaneiroRepository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<ProdutoFinanceiro>> GetProdutos()
+        {
+            return await _produtoFinaneiroRepository.GetProdutosFinanceirosAsync();
+        }
     }
 }

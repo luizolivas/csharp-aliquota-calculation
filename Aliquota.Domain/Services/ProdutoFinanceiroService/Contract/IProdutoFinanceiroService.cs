@@ -10,5 +10,6 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService.Contract
     public interface IProdutoFinanceiroService
     {
         Task AddProduto(ProdutoFinanceiro produto);
+        Task<IEnumerable<ProdutoFinanceiro>> GetProdutos();
     }
 }

@@ -10,7 +10,7 @@ namespace Aliquota.Domain.Repository
 {
     public interface IProdutoFinaneiroRepository
     {
-        Task<List<ProdutoFinanceiro>> GetProdutosFinanceirosAsync();
+        Task<IEnumerable<ProdutoFinanceiro>> GetProdutosFinanceirosAsync();
         Task<ProdutoFinanceiro> GetProdutoFinanceiroByIdAsync(int id);
         Task AddProdutoFinanceiroAsync(ProdutoFinanceiro produto);
         Task SaveChangesAsync();

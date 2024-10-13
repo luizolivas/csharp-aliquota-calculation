@@ -25,7 +25,7 @@ namespace Aliquota.Domain.Webapp.Repository
             return await _context.ProdutoFinanceiro.FindAsync(id);
         }
 
-        public async Task<List<ProdutoFinanceiro>> GetProdutosFinanceirosAsync()
+        public async Task<IEnumerable<ProdutoFinanceiro>> GetProdutosFinanceirosAsync()
         {
             return await _context.ProdutoFinanceiro.ToListAsync();
         }

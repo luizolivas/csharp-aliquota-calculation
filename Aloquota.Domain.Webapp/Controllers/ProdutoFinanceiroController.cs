@@ -1,5 +1,6 @@
 ﻿using Aliquota.Domain.Models;
 using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
+using Aliquota.Domain.Webapp.Mappers;
 using Aliquota.Domain.Webapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,9 +16,18 @@ namespace Aliquota.Domain.Webapp.Controllers
             _produtoFinanceiroService = produtoFinanceiroService;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<ProdutoFinanceiroViewModel>>> Index()
         {
-            return View();
+            var result = await _produtoFinanceiroService.GetProdutos();
+            if(result == null)
+            {
+                return View("Error");
+            }
+
+            var viewModel = ProdutoFinanceiroMapper.ToViewModel(result);
+
+            return View(viewModel);
         }
 
         [HttpGet]
@@ -27,7 +37,7 @@ namespace Aliquota.Domain.Webapp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProdutoFinanceiroViewModel produtoVM)
+        public async Task<IActionResult> CriaProduto(ProdutoFinanceiroViewModel produtoVM)
         {
             if (ModelState.IsValid)
             {
@@ -44,6 +54,20 @@ namespace Aliquota.Domain.Webapp.Controllers
             ModelState.AddModelError("", "Erro ao adicionar o produto.");
             return View(produtoVM);
 
+        }
+
+        [HttpGet]
+        public IActionResult AtualizaProduto(ProdutoFinanceiroViewModel produtoVM)
+        {
+            return View();
+        }
+
+
+
+        [HttpGet]
+        public IActionResult DeletaProduto(ProdutoFinanceiroViewModel produtoVM)
+        {
+            return View();
         }
     }
 }
