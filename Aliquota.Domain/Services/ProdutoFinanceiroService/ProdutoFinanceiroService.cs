@@ -20,7 +20,7 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService
 
         public async Task AddProduto(ProdutoFinanceiro produto)
         {
-            produto.DataAplicacao = DateTime.Today;
+            produto.DataAplicacao = DateTime.Now;
             await _produtoFinaneiroRepository.AddProdutoFinanceiroAsync(produto);
             await _produtoFinaneiroRepository.SaveChangesAsync();
         }

@@ -8,7 +8,7 @@ namespace Aliquota.Domain.Webapp.Context
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<ProdutoFinanceiro> Produtos { get; set; }
+        public DbSet<ProdutoFinanceiro> ProdutoFinanceiro { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

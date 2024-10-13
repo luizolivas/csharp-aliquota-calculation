@@ -17,17 +17,17 @@ namespace Aliquota.Domain.Webapp.Repository
 
         public async Task AddProdutoFinanceiroAsync(ProdutoFinanceiro produto)
         {
-            await _context.Produtos.AddAsync(produto);
+            await _context.ProdutoFinanceiro.AddAsync(produto);
         }
 
         public async Task<ProdutoFinanceiro> GetProdutoFinanceiroByIdAsync(int id)
         {
-            return await _context.Produtos.FindAsync(id);
+            return await _context.ProdutoFinanceiro.FindAsync(id);
         }
 
         public async Task<List<ProdutoFinanceiro>> GetProdutosFinanceirosAsync()
         {
-            return await _context.Produtos.ToListAsync();
+            return await _context.ProdutoFinanceiro.ToListAsync();
         }
 
         public async Task SaveChangesAsync()

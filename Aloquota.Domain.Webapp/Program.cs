@@ -1,4 +1,8 @@
+using Aliquota.Domain.Repository;
+using Aliquota.Domain.Services.ProdutoFinanceiroService;
+using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Context;
+using Aliquota.Domain.Webapp.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,9 @@ builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IProdutoFinaneiroRepository, ProdutoFinanceiroRepository>();
+builder.Services.AddScoped<IProdutoFinanceiroService, ProdutoFinanceiroService>();
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
-﻿using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
+﻿using Aliquota.Domain.Models;
+using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,23 +29,21 @@ namespace Aliquota.Domain.Webapp.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProdutoFinanceiroViewModel produtoVM)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    var result = await _productService.CreateProduct(productVM);
+            if (ModelState.IsValid)
+            {
+                ProdutoFinanceiro produtoFinanceiro = new ProdutoFinanceiro()
+                {
+                    Nome = produtoVM.Nome,
+                    Valor = produtoVM.Valor
+                };
 
-            //    if (result != null)
-            //    {
-            //        return RedirectToAction("Index");
-            //    }
-            //}
-            //else
-            //{
-            //    var categories = await _categoryService.GetAllCategories();
-            //    ViewBag.CategoryId = new SelectList(categories, "Id", "Name");
-            //}
+                await _produtoFinanceiroService.AddProduto(produtoFinanceiro);
+                return RedirectToAction("Index");
 
-            //return View(productVM);
-            return View();
+            }
+            ModelState.AddModelError("", "Erro ao adicionar o produto.");
+            return View(produtoVM);
+
         }
     }
 }

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aliquota.Domain", "Aliquota.Domain\Aliquota.Domain.csproj", "{D8753FF0-FCEE-4FFA-A698-07C725B3EB3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aliquota.Domain.Test", "Aliquota.Domain.Test\Aliquota.Domain.Test.csproj", "{99348B98-1AF1-4CB2-95A9-A9C9DC25E474}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D8753FF0-FCEE-4FFA-A698-07C725B3EB3C} = {D8753FF0-FCEE-4FFA-A698-07C725B3EB3C}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Aliquota.Domain.Webapp", "Aloquota.Domain.Webapp\Aliquota.Domain.Webapp.csproj", "{0ECAE153-3873-4F51-AC6A-AC3482755793}"
 	ProjectSection(ProjectDependencies) = postProject
