@@ -1,9 +1,9 @@
-﻿@model Aliquota.Domain.Webapp.Models.ProdutoFinanceiroViewModel
+﻿@model Aliquota.Domain.Webapp.Models.ClienteViewModel
 
 
-<h2>Adicionar Produto Financeiro</h2>
+<h2>Adicionar Cliente</h2>
 
-<form asp-action="CriaProduto">
+<form asp-action="CriaCliente">
     <div class="form-horizontal">
         <hr />
         <div asp-validation-summary="All" class="text-danger"></div>
@@ -16,19 +16,11 @@
         </div>
 
         <div class="form-group">
-            <label asp-for="Valor" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Valor" class="form-control" />
-                <span asp-validation-for="Valor" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-success" />
                 <a asp-action="Index" class="btn btn-info">Back to List</a>
             </div>
         </div>
-        </div>
+    </div>
     </div>
 </form>

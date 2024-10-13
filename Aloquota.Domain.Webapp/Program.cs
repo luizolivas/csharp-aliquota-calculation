@@ -1,4 +1,6 @@
 using Aliquota.Domain.Repository;
+using Aliquota.Domain.Services.ClienteService;
+using Aliquota.Domain.Services.ClienteService.Contract;
 using Aliquota.Domain.Services.ProdutoFinanceiroService;
 using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Context;
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 
 builder.Services.AddScoped<IProdutoFinaneiroRepository, ProdutoFinanceiroRepository>();
 builder.Services.AddScoped<IProdutoFinanceiroService, ProdutoFinanceiroService>();
+builder.Services.AddScoped<IClienteRepositoy, ClienteRepository>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
 
 var app = builder.Build();
 
