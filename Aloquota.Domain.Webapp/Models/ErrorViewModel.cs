@@ -1,4 +1,4 @@
-namespace Aloquota.Domain.Webapp.Models
+namespace Aliquota.Domain.Webapp.Models
 {
     public class ErrorViewModel
     {

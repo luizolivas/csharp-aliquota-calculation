@@ -1,8 +1,8 @@
-using Aloquota.Domain.Webapp.Models;
+using Aliquota.Domain.Webapp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Aloquota.Domain.Webapp.Controllers
+namespace Aliquota.Domain.Webapp.Controllers
 {
     public class HomeController : Controller
     {
