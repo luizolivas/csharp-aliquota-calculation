@@ -25,6 +25,11 @@ namespace Aliquota.Domain.Webapp.Context
                 .Property(h => h.Valor)
                 .HasPrecision(18, 2);
 
+            modelBuilder.Entity<ProdutoFinanceiro>()
+                .HasOne(p => p.Cliente)
+                .WithMany(c => c.ProdutoFinanceiros)
+                .HasForeignKey(p => p.ClienteId);
+
             base.OnModelCreating(modelBuilder);
         }
 

@@ -18,8 +18,11 @@ namespace Aliquota.Domain.Models
         [Required]
         public decimal Valor { get; set; }
         public DateTime DataAplicacao { get; set; }
+        public int ClienteId { get; set; }
+
 
         public ICollection<HistoricoMovimentacao> HistoricoMovimentacoes { get; set; }
+        public Cliente Cliente { get; set; }
 
 
     }

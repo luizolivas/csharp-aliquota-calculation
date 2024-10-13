@@ -15,5 +15,8 @@ namespace Aliquota.Domain.Models
         public int Id { get; set; }
         [Required]
         public string Nome { get; set; }
+
+        public ICollection<ProdutoFinanceiro> ProdutoFinanceiros { get; set; }
+
     }
 }
