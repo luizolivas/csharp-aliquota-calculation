@@ -5,6 +5,8 @@ using Aliquota.Domain.Services.ProdutoFinanceiroService;
 using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Context;
 using Aliquota.Domain.Webapp.Repository;
+using Aliquota.Domain.Webapp.Services;
+using Aliquota.Domain.Webapp.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +21,7 @@ builder.Services.AddScoped<IProdutoFinaneiroRepository, ProdutoFinanceiroReposit
 builder.Services.AddScoped<IProdutoFinanceiroService, ProdutoFinanceiroService>();
 builder.Services.AddScoped<IClienteRepositoy, ClienteRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IClienteServiceFront,ClienteServiceFront>();
 
 var app = builder.Build();
 

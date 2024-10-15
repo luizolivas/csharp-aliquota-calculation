@@ -13,6 +13,8 @@ namespace Aliquota.Domain.Repository
         Task<IEnumerable<ProdutoFinanceiro>> GetProdutosFinanceirosAsync();
         Task<ProdutoFinanceiro> GetProdutoFinanceiroByIdAsync(int id);
         Task AddProdutoFinanceiroAsync(ProdutoFinanceiro produto);
+        Task UpdateProdutoFinanceiroAsync(ProdutoFinanceiro produto);
+        Task DeleteProdutoFinanceiroAsync(int id);
         Task SaveChangesAsync();
     }
 }

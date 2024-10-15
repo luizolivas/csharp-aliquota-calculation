@@ -24,9 +24,15 @@ namespace Aliquota.Domain.Services.ClienteService
             await _clienteRepository.SaveChangesAsync();
         }
 
+        public async Task<Cliente> GetClienteById(int id)
+        {
+            return await _clienteRepository.GetClienteByIdAsync(id);
+        }
+
         public async Task<IEnumerable<Cliente>> GetClientes()
         {
             return await _clienteRepository.GetClienteAsync();
         }
+
     }
 }

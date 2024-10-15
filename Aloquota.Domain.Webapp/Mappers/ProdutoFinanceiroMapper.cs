@@ -12,13 +12,26 @@ namespace Aliquota.Domain.Webapp.Mappers
                 Id = produto.Id, 
                 Nome = produto.Nome,
                 Valor = produto.Valor,
-                DataAplicacao = produto.DataAplicacao
+                DataAplicacao = produto.DataAplicacao,
+                NomeCliente = produto.Cliente.Nome
             };
         }
 
         public static IEnumerable<ProdutoFinanceiroViewModel> ToViewModel(IEnumerable<ProdutoFinanceiro> produtos)
         {
             return produtos.Select(ToViewModel);
+        }
+
+        public static ProdutoFinanceiro ToModel(ProdutoFinanceiroViewModel viewModel)
+        {
+            return new ProdutoFinanceiro
+            {
+                Id = viewModel.Id,
+                Nome = viewModel.Nome,
+                Valor = viewModel.Valor,
+                ClienteId = viewModel.ClienteId,
+                
+            };
         }
     }
 }

@@ -11,5 +11,6 @@ namespace Aliquota.Domain.Services.ClienteService.Contract
     {
         Task AddCliente(Cliente cliente);
         Task<IEnumerable<Cliente>> GetClientes();
+        Task<Cliente> GetClienteById(int id);
     }
 }

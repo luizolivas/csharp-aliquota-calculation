@@ -30,6 +30,9 @@
                 <th>
                     @Html.DisplayNameFor(model => model.DataAplicacao)
                 </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NomeCliente)
+                </th>
                 <th></th>
             </tr>
         </thead>
@@ -47,11 +50,20 @@
                         @Html.DisplayFor(modelItem => item.DataAplicacao)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.NomeCliente)
+                    </td>
+                    <td>
                         <a asp-action="AtualizaProduto" asp-route-id="@item.Id" title="Edita" class="btn btn-warning">
                             <span class="fas fa-edit"></span> Atualizar
                         </a>
                         <a asp-action="DeletaProduto" asp-route-id="@item.Id" title="Deleta" class="btn btn-danger">
                             <span class="fas fa-trash-alt"></span> Excluir
+                        </a>
+                        <a asp-action="DeletaProduto" asp-route-id="@item.Id" title="Aplica" class="btn btn-primary">
+                            <span class="fas fa-trash-alt"></span> Aplicar
+                        </a>
+                        <a asp-action="DeletaProduto" asp-route-id="@item.Id" title="Resgata" class="btn btn-outline-primary">
+                            <span class="fas fa-trash-alt"></span> Resgatar
                         </a>
                     </td>
                 </tr>

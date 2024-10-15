@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
 
 namespace Aliquota.Domain.Webapp.Models
 {
@@ -9,7 +10,11 @@ namespace Aliquota.Domain.Webapp.Models
         public string Nome { get; set; }
         [Required]
         public decimal Valor { get; set; }
-        public DateTime DataAplicacao { get; set; }
+        [Display(Name = "Data Aplicação")]
+        public DateTime DataAplicacao { get; set; } 
         public int ClienteId { get; set; }
+        [Display(Name = "Cliente")]
+        [BindNever]
+        public string NomeCliente { get; set; }
     }
 }

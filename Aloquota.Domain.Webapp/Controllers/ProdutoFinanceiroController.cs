@@ -3,6 +3,7 @@ using Aliquota.Domain.Services.ClienteService.Contract;
 using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Mappers;
 using Aliquota.Domain.Webapp.Models;
+using Aliquota.Domain.Webapp.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,11 +13,14 @@ namespace Aliquota.Domain.Webapp.Controllers
     {
         private readonly IProdutoFinanceiroService _produtoFinanceiroService;
         private readonly IClienteService _clienteService;
+        private readonly IClienteServiceFront _clienteServiceFront;
 
-        public ProdutoFinanceiroController(IProdutoFinanceiroService produtoFinanceiroService, IClienteService clienteService)
+        public ProdutoFinanceiroController(IProdutoFinanceiroService produtoFinanceiroService, IClienteService clienteService, IClienteServiceFront clienteServiceFront)
         {
             _produtoFinanceiroService = produtoFinanceiroService;
             _clienteService = clienteService;
+            _clienteServiceFront = clienteServiceFront;
+
         }
 
         [HttpGet]
@@ -36,22 +40,19 @@ namespace Aliquota.Domain.Webapp.Controllers
         [HttpGet]
         public async Task<IActionResult> NovoProdutoFinanceiro()
         {
-            var clientes = await _clienteService.GetClientes();
-            ViewBag.ClienteId = new SelectList(clientes, "Id", "Nome");
+            
+            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> CriaProduto(ProdutoFinanceiroViewModel produtoVM)
         {
+            ModelState.Remove("NomeCliente");
+
             if (ModelState.IsValid)
             {
-                ProdutoFinanceiro produtoFinanceiro = new ProdutoFinanceiro()
-                {
-                    Nome = produtoVM.Nome,
-                    Valor = produtoVM.Valor,
-                    ClienteId = produtoVM.ClienteId
-                };
+                ProdutoFinanceiro produtoFinanceiro = ProdutoFinanceiroMapper.ToModel(produtoVM);
 
                 await _produtoFinanceiroService.AddProduto(produtoFinanceiro);
                 return RedirectToAction("Index");
@@ -63,17 +64,66 @@ namespace Aliquota.Domain.Webapp.Controllers
         }
 
         [HttpGet]
-        public IActionResult AtualizaProduto(ProdutoFinanceiroViewModel produtoVM)
+        public async Task<IActionResult> AtualizaProduto(int id)
         {
-            return View();
+            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
+            var result = await _produtoFinanceiroService.GetProdutobyId(id);
+
+            if (result is null)
+            {
+                return View("Error");
+            }
+            var viewModel = ProdutoFinanceiroMapper.ToViewModel(result);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AtualizaProduto(ProdutoFinanceiroViewModel produtoVM)
+        {
+            ModelState.Remove("NomeCliente");
+
+            if (ModelState.IsValid)
+            {
+                var produtoFinanceiro = ProdutoFinanceiroMapper.ToModel(produtoVM);
+                
+                await _produtoFinanceiroService.UpdateProduto(produtoFinanceiro);
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Erro ao atualizar o produto.");
+            return View(produtoVM);
         }
 
 
 
         [HttpGet]
-        public IActionResult DeletaProduto(ProdutoFinanceiroViewModel produtoVM)
+        public async Task<IActionResult> DeletaProduto(ProdutoFinanceiroViewModel produtoVM)
         {
+            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
+            var result = await _produtoFinanceiroService.GetProdutobyId(produtoVM.Id);
+
+            if (result is null)
+            {
+                return View("Error");
+            }
+            var viewModel = ProdutoFinanceiroMapper.ToViewModel(result);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeletaProduto(int id)
+        {
+            ModelState.Remove("NomeCliente");
+
+            if (ModelState.IsValid)
+            {
+                await _produtoFinanceiroService.DeleteProduto(id);
+                return RedirectToAction("Index");
+            }
+            ModelState.AddModelError("", "Erro ao excluir o produto.");
             return View();
         }
+
     }
 }
