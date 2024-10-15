@@ -10,5 +10,6 @@ namespace Aliquota.Domain.Webapp.Models
         [Required]
         public decimal Valor { get; set; }
         public DateTime DataAplicacao { get; set; }
+        public int ClienteId { get; set; }
     }
 }

@@ -24,6 +24,13 @@
         </div>
 
         <div class="form-group">
+            <label asp-for="ClienteId" class="col-md-2 control-label">Cliente</label>
+            <div class="col-md-10">
+                <select asp-for="ClienteId" class="form-control" asp-items="@ViewBag.ClienteId"> </select>
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-success" />
                 <a asp-action="Index" class="btn btn-info">Back to List</a>

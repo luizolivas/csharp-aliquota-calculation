@@ -1,4 +1,5 @@
 ﻿using Aliquota.Domain.Models;
+using Aliquota.Domain.Services.ClienteService.Contract;
 using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Mappers;
 using Aliquota.Domain.Webapp.Models;
@@ -10,10 +11,12 @@ namespace Aliquota.Domain.Webapp.Controllers
     public class ProdutoFinanceiroController : Controller
     {
         private readonly IProdutoFinanceiroService _produtoFinanceiroService;
+        private readonly IClienteService _clienteService;
 
-        public ProdutoFinanceiroController(IProdutoFinanceiroService produtoFinanceiroService)
+        public ProdutoFinanceiroController(IProdutoFinanceiroService produtoFinanceiroService, IClienteService clienteService)
         {
             _produtoFinanceiroService = produtoFinanceiroService;
+            _clienteService = clienteService;
         }
 
         [HttpGet]
@@ -33,6 +36,8 @@ namespace Aliquota.Domain.Webapp.Controllers
         [HttpGet]
         public async Task<IActionResult> NovoProdutoFinanceiro()
         {
+            var clientes = await _clienteService.GetClientes();
+            ViewBag.ClienteId = new SelectList(clientes, "Id", "Nome");
             return View();
         }
 
