@@ -49,7 +49,8 @@ namespace Aliquota.Domain.Webapp.Controllers
                 ProdutoFinanceiro produtoFinanceiro = new ProdutoFinanceiro()
                 {
                     Nome = produtoVM.Nome,
-                    Valor = produtoVM.Valor
+                    Valor = produtoVM.Valor,
+                    ClienteId = produtoVM.ClienteId
                 };
 
                 await _produtoFinanceiroService.AddProduto(produtoFinanceiro);
