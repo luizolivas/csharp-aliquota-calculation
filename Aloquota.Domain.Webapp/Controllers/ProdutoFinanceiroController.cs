@@ -125,5 +125,11 @@ namespace Aliquota.Domain.Webapp.Controllers
             return View();
         }
 
+        [HttpGet] 
+        public async Task<IActionResult> AplicaProduto(ProdutoFinanceiroViewModel produtoVM)
+        {
+            return RedirectToAction("AplicaProduto", "Movimentacao", new { id = produtoVM.Id });
+        }
+
     }
 }

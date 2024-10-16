@@ -1,0 +1,35 @@
+﻿@model Aliquota.Domain.Webapp.Models.MovimentacaoProdutoViewModel
+
+<h3>Aplicação</h3>
+
+<hr />
+<form asp-action="AplicaProduto">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="ProdutoFinanceiroViewModel.Nome" class="control-label"></label>
+        <input asp-for="ProdutoFinanceiroViewModel.Nome" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Valor" class="control-label"></label>
+        <input asp-for="ProdutoFinanceiroViewModel.Valor" class="form-control" readonly></input>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Valor" class="control-label">Valor de Aplicação</label>
+        <input asp-for="Valor" class="form-control"></input>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ProdutoFinanceiroViewModel.ClienteId" class="control-label"></label>
+        <select asp-for="ProdutoFinanceiroViewModel.ClienteId" class="form-control" asp-items="ViewBag.ClienteId" disabled></select>
+        <span asp-validation-for="ProdutoFinanceiroViewModel.ClienteId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" style="padding-top: 10px">
+        <input type="submit" value="Save" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-info">Back to List</a>
+    </div>
+</form>

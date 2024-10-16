@@ -13,7 +13,8 @@ namespace Aliquota.Domain.Webapp.Mappers
                 Nome = produto.Nome,
                 Valor = produto.Valor,
                 DataAplicacao = produto.DataAplicacao,
-                NomeCliente = produto.Cliente.Nome
+                NomeCliente = produto.Cliente.Nome,
+                ClienteId = produto.ClienteId
             };
         }
 
