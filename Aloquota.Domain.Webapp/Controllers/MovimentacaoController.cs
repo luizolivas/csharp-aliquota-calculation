@@ -25,17 +25,12 @@ namespace Aliquota.Domain.Webapp.Controllers
         [HttpGet]
         public async Task<IActionResult> AplicaProduto(int id)
         {
-            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
-            var result = await _produtoFinanceiroService.GetProdutobyId(id);
+            MovimentacaoProdutoViewModel model = await CarregaProduto(id);
 
-            if (result is null)
+            if(model == null)
             {
                 return View("Error");
             }
-            var viewModel = ProdutoFinanceiroMapper.ToViewModel(result);
-
-            MovimentacaoProdutoViewModel model = new MovimentacaoProdutoViewModel();
-            model.ProdutoFinanceiroViewModel = viewModel;
 
             return View(model);
         }
@@ -53,17 +48,47 @@ namespace Aliquota.Domain.Webapp.Controllers
                     HistoricoMovimentacao historico = MovimentacaoMapper.ToModel(movimentacaoProdutoView);
                     historico.ProdutoFinanceiroId = Id;
                     await _movimentacaoService.ProcessaMovimentacao(historico, TipoOperacao.APLICACAO);
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "ProdutoFinanceiro");
                 }
 
             }
             catch (Exception ex)
             {
                 ModelState.AddModelError("", ex.Message);
-                return View(movimentacaoProdutoView);
+            }
+            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
+            return View(movimentacaoProdutoView);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResgataProduto(int id)
+        {
+            MovimentacaoProdutoViewModel model = await CarregaProduto(id);
+            model.DataOperacao = DateTime.Now;
+            if (model == null)
+            {
+                return View("Error");
             }
 
-            return View(movimentacaoProdutoView);
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<MovimentacaoProdutoViewModel> CarregaProduto(int id)
+        {
+            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
+            var result = await _produtoFinanceiroService.GetProdutobyId(id);
+
+            if (result is null)
+            {
+                return null;
+            }
+            var viewModel = ProdutoFinanceiroMapper.ToViewModel(result);
+
+            MovimentacaoProdutoViewModel model = new MovimentacaoProdutoViewModel();
+            model.ProdutoFinanceiroViewModel = viewModel;
+
+            return model;
         }
     }
 }

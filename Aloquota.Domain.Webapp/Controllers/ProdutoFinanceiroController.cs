@@ -124,11 +124,17 @@ namespace Aliquota.Domain.Webapp.Controllers
             ModelState.AddModelError("", "Erro ao excluir o produto.");
             return View();
         }
-
+        
         [HttpGet] 
         public async Task<IActionResult> AplicaProduto(ProdutoFinanceiroViewModel produtoVM)
         {
             return RedirectToAction("AplicaProduto", "Movimentacao", new { id = produtoVM.Id });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResgataProduto(ProdutoFinanceiroViewModel produtoVM)
+        {
+            return RedirectToAction("ResgataProduto", "Movimentacao", new { id = produtoVM.Id });
         }
 
     }
