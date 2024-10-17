@@ -53,5 +53,14 @@ namespace Aliquota.Domain.Webapp.Repository
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task AtualizaValorProduto(int produtoId, decimal valorAdicional)
+        {
+            var produto = await _context.ProdutoFinanceiro.FindAsync(produtoId);
+
+            produto.Valor = valorAdicional;
+
+            _context.ProdutoFinanceiro.Update(produto);
+        }
     }
 }

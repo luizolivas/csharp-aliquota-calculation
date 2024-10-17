@@ -16,5 +16,6 @@ namespace Aliquota.Domain.Repository
         Task UpdateProdutoFinanceiroAsync(ProdutoFinanceiro produto);
         Task DeleteProdutoFinanceiroAsync(int id);
         Task SaveChangesAsync();
+        Task AtualizaValorProduto(int produtoId, decimal valorAdicional);
     }
 }

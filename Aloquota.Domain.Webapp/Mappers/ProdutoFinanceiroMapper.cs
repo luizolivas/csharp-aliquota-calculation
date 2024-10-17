@@ -14,7 +14,7 @@ namespace Aliquota.Domain.Webapp.Mappers
                 Valor = produto.Valor,
                 DataAplicacao = produto.DataAplicacao,
                 NomeCliente = produto.Cliente.Nome,
-                ClienteId = produto.ClienteId
+                ClienteId = produto.ClienteId,
             };
         }
 
@@ -30,8 +30,7 @@ namespace Aliquota.Domain.Webapp.Mappers
                 Id = viewModel.Id,
                 Nome = viewModel.Nome,
                 Valor = viewModel.Valor,
-                ClienteId = viewModel.ClienteId,
-                
+                ClienteId = viewModel.ClienteId              
             };
         }
     }

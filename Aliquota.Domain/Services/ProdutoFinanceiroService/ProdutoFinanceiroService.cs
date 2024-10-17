@@ -46,5 +46,13 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService
             await _produtoFinaneiroRepository.DeleteProdutoFinanceiroAsync(id);
             await _produtoFinaneiroRepository.SaveChangesAsync();
         }
+
+        public async Task AtualizaValorProduto(int idProduto, decimal novoValor)
+        {
+            ProdutoFinanceiro prod = await GetProdutobyId(idProduto);           
+            novoValor = novoValor + prod.Valor;
+            await _produtoFinaneiroRepository.AtualizaValorProduto(idProduto, novoValor);
+            await _produtoFinaneiroRepository.SaveChangesAsync();
+        }
     }
 }

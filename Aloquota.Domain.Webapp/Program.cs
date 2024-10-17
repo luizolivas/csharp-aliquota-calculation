@@ -1,6 +1,8 @@
 using Aliquota.Domain.Repository;
 using Aliquota.Domain.Services.ClienteService;
 using Aliquota.Domain.Services.ClienteService.Contract;
+using Aliquota.Domain.Services.MovimentacaoService;
+using Aliquota.Domain.Services.MovimentacaoService.Contracts;
 using Aliquota.Domain.Services.ProdutoFinanceiroService;
 using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Webapp.Context;
@@ -22,6 +24,9 @@ builder.Services.AddScoped<IProdutoFinanceiroService, ProdutoFinanceiroService>(
 builder.Services.AddScoped<IClienteRepositoy, ClienteRepository>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteServiceFront,ClienteServiceFront>();
+builder.Services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
+builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
+builder.Services.AddSingleton<IValidaMovimentacao, ValidaMovimentacao>();
 
 var app = builder.Build();
 

@@ -9,6 +9,7 @@ namespace Aliquota.Domain.Webapp.Context
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<ProdutoFinanceiro> ProdutoFinanceiro { get; set; }
+        public DbSet<HistoricoMovimentacao> HistoricoMovimentacao { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

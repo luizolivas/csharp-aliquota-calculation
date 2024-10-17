@@ -15,6 +15,7 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService.Contract
         Task<ProdutoFinanceiro> GetProdutobyId(int id);
         Task UpdateProduto(ProdutoFinanceiro produto);
         Task DeleteProduto(int id);
+        Task AtualizaValorProduto(int idProduto, decimal novoValor);
 
     }
 }
