@@ -27,6 +27,7 @@ builder.Services.AddScoped<IClienteServiceFront,ClienteServiceFront>();
 builder.Services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
 builder.Services.AddSingleton<IValidaMovimentacao, ValidaMovimentacao>();
+builder.Services.AddSingleton<ICalculoService, CalculoService>();
 
 var app = builder.Build();
 

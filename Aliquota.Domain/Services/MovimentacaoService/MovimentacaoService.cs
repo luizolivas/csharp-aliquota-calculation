@@ -15,30 +15,38 @@ namespace Aliquota.Domain.Services.MovimentacaoService
         private readonly IMovimentacaoRepository _repository;
         private readonly IValidaMovimentacao _validaMovimentacao;
         private readonly IProdutoFinanceiroService _produtoFinanceiroService;
+        private readonly ICalculoService _calculoService;
 
-        public MovimentacaoService(IMovimentacaoRepository repository, IValidaMovimentacao validaMovimentacao, IProdutoFinanceiroService produtoFinanceiroService)
+
+        private decimal ValorCalculadoIR;
+
+        public MovimentacaoService(IMovimentacaoRepository repository, IValidaMovimentacao validaMovimentacao, IProdutoFinanceiroService produtoFinanceiroService, ICalculoService calculoService)
         {
             _repository = repository;
             _validaMovimentacao = validaMovimentacao;
             _produtoFinanceiroService = produtoFinanceiroService;
+            _calculoService = calculoService;
         }
 
-        public async Task ProcessaMovimentacao(HistoricoMovimentacao movimentacao, TipoOperacao tipoOperacao)
+        public async Task ProcessaMovimentacao(HistoricoMovimentacao movimentacao)
         {
             ProdutoFinanceiro prod = await _produtoFinanceiroService.GetProdutobyId(movimentacao.ProdutoFinanceiroId);
-            DateTime dt = prod.DataAplicacao;
-            movimentacao.DataOperacao = DateTime.Now;
-            _validaMovimentacao.Valida(movimentacao,dt);
+            DateTime dtAplicacao = prod.DataAplicacao;
+            _validaMovimentacao.Valida(movimentacao, dtAplicacao);
             
-            if(tipoOperacao == TipoOperacao.APLICACAO)
+            if(movimentacao.TipoOperacao == TipoOperacao.APLICACAO)
             {
+                ValorCalculadoIR = movimentacao.Valor;
                 await AplicaProduto(movimentacao);
             }
             else
             {
+                movimentacao.Lucro = _calculoService.CalculaLucro(prod.Valor, movimentacao.Valor);
+                ValorCalculadoIR = _calculoService.CalculoIR(dtAplicacao, movimentacao.DataOperacao, movimentacao.Lucro);
+                movimentacao.ValorImposto = ValorCalculadoIR;
                 await ResgataProduto(movimentacao);
             }
-            await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.Valor);
+            await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, ValorCalculadoIR);
         }
 
         public async Task AplicaProduto(HistoricoMovimentacao movimentacao)
@@ -51,9 +59,11 @@ namespace Aliquota.Domain.Services.MovimentacaoService
             await _repository.AddMovimentacao(movimentacao);
         }
 
-        public async Task AtualizaValor(int idProduto, decimal novoValor)
+        public async Task AtualizaValor(int idProduto, TipoOperacao tipoOperacao, decimal novoValor)
         {
-            await _produtoFinanceiroService.AtualizaValorProduto(idProduto, novoValor);
+            await _produtoFinanceiroService.AtualizaValorProduto(idProduto, tipoOperacao, novoValor);
         }
+
+
     }
 }

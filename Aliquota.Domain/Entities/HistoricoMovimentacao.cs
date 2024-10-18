@@ -17,6 +17,8 @@ namespace Aliquota.Domain.Models
         public DateTime DataOperacao { get; set; }
         public TipoOperacao TipoOperacao { get; set; }
         public int ProdutoFinanceiroId { get; set; }
+        public decimal ValorImposto { get; set; }
+        public decimal Lucro { get; set; }
 
         public ProdutoFinanceiro ProdutoFinanceiro { get; set; }
     }

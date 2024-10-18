@@ -9,9 +9,9 @@ namespace Aliquota.Domain.Services.MovimentacaoService.Contracts
 {
     public interface IMovimentacaoService
     {
-        Task ProcessaMovimentacao(HistoricoMovimentacao movimentacao, TipoOperacao tipoOperacao);
+        Task ProcessaMovimentacao(HistoricoMovimentacao movimentacao);
         Task AplicaProduto(HistoricoMovimentacao movimentacao);
         Task ResgataProduto(HistoricoMovimentacao movimentacao);
-        Task AtualizaValor(int idProduto, decimal novoValor);
+        Task AtualizaValor(int idProduto, TipoOperacao tipoOperacao, decimal novoValor);
     }
 }

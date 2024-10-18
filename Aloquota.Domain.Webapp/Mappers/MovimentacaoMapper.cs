@@ -10,7 +10,8 @@ namespace Aliquota.Domain.Webapp.Mappers
             return new HistoricoMovimentacao
             {
                 Valor = viewModel.Valor,
-                ProdutoFinanceiroId = viewModel.ProdutoFinanceiroId,               
+                ProdutoFinanceiroId = viewModel.ProdutoFinanceiroId,
+                DataOperacao = viewModel.DataOperacao
             };
         }
     }

@@ -26,6 +26,14 @@ namespace Aliquota.Domain.Webapp.Context
                 .Property(h => h.Valor)
                 .HasPrecision(18, 2);
 
+            modelBuilder.Entity<HistoricoMovimentacao>()
+                .Property(h => h.Lucro)
+                .HasColumnType("decimal(18,2)"); 
+
+            modelBuilder.Entity<HistoricoMovimentacao>()
+                .Property(h => h.ValorImposto)
+                .HasColumnType("decimal(18,2)");
+
             modelBuilder.Entity<ProdutoFinanceiro>()
                 .HasOne(p => p.Cliente)
                 .WithMany(c => c.ProdutoFinanceiros)

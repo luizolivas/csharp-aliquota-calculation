@@ -47,10 +47,20 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService
             await _produtoFinaneiroRepository.SaveChangesAsync();
         }
 
-        public async Task AtualizaValorProduto(int idProduto, decimal novoValor)
+        public async Task AtualizaValorProduto(int idProduto, TipoOperacao tipoOperacao, decimal novoValor)
         {
-            ProdutoFinanceiro prod = await GetProdutobyId(idProduto);           
-            novoValor = novoValor + prod.Valor;
+            ProdutoFinanceiro prod = await GetProdutobyId(idProduto);  
+            
+            if(tipoOperacao == TipoOperacao.APLICACAO)
+            {
+                novoValor += prod.Valor;
+            }
+            else
+            {
+                novoValor = prod.Valor - novoValor;
+            }
+
+            
             await _produtoFinaneiroRepository.AtualizaValorProduto(idProduto, novoValor);
             await _produtoFinaneiroRepository.SaveChangesAsync();
         }

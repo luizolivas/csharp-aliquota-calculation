@@ -15,14 +15,21 @@ namespace Aliquota.Domain.Services.MovimentacaoService
         {
             if(historico == null)
             {
-                throw new Exception("Histórico de movimentação inválido.");
+                throw new Exception("Ocorreu um erro");
             }
-
-            ValidaData(historico.DataOperacao,d);
+            if(historico.TipoOperacao == TipoOperacao.APLICACAO)
+            {
+                ValidaData(DateTime.Now, d);
+            }
+            else
+            {
+                ValidaData(historico.DataOperacao, d);
+            }
+            
             ValidaValor(historico.Valor);
 
         }
-
+         
         public void ValidaData(DateTime dataNova, DateTime dataInicial)
         {
             if (dataNova < dataInicial)

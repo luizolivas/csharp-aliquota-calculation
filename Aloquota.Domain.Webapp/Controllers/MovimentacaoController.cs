@@ -47,7 +47,8 @@ namespace Aliquota.Domain.Webapp.Controllers
 
                     HistoricoMovimentacao historico = MovimentacaoMapper.ToModel(movimentacaoProdutoView);
                     historico.ProdutoFinanceiroId = Id;
-                    await _movimentacaoService.ProcessaMovimentacao(historico, TipoOperacao.APLICACAO);
+                    historico.TipoOperacao = TipoOperacao.APLICACAO;
+                    await _movimentacaoService.ProcessaMovimentacao(historico);
                     return RedirectToAction("Index", "ProdutoFinanceiro");
                 }
 
@@ -71,6 +72,32 @@ namespace Aliquota.Domain.Webapp.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResgataProduto(MovimentacaoProdutoViewModel movimentacaoProdutoView, int Id)
+        {
+            ModelState.Remove("ProdutoFinanceiroViewModel.NomeCliente");
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+
+                    HistoricoMovimentacao historico = MovimentacaoMapper.ToModel(movimentacaoProdutoView);
+                    historico.ProdutoFinanceiroId = Id;
+                    historico.TipoOperacao = TipoOperacao.RESGATE;
+                    await _movimentacaoService.ProcessaMovimentacao(historico);
+                    return RedirectToAction("Index", "ProdutoFinanceiro");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+            }
+            ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();
+            return View(movimentacaoProdutoView);
         }
 
         [HttpGet]
