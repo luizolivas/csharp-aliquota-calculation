@@ -39,7 +39,7 @@ namespace Aliquota.Domain.Webapp.Repository
             }
             prod.Nome = produto.Nome;
             prod.Valor = produto.Valor;
-            prod.DataAplicacao = produto.DataAplicacao;
+            prod.ClienteId = produto.ClienteId;
 
         }
 

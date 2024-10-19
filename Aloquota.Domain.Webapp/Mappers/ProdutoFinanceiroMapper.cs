@@ -29,8 +29,10 @@ namespace Aliquota.Domain.Webapp.Mappers
             {
                 Id = viewModel.Id,
                 Nome = viewModel.Nome,
+                DataAplicacao = viewModel.DataAplicacao,
                 Valor = viewModel.Valor,
-                ClienteId = viewModel.ClienteId              
+                ClienteId = viewModel.ClienteId        
+                
             };
         }
     }
