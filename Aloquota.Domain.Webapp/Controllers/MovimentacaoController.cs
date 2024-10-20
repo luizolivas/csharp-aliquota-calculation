@@ -100,7 +100,7 @@ namespace Aliquota.Domain.Webapp.Controllers
             return View(movimentacaoProdutoView);
         }
 
-        [HttpGet]
+
         public async Task<MovimentacaoProdutoViewModel> CarregaProduto(int id)
         {
             ViewBag.ClienteId = await _clienteServiceFront.GetListaClientes();

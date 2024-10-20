@@ -38,6 +38,7 @@ namespace Aliquota.Domain.Services.MovimentacaoService
             {
                 ValorCalculadoIR = movimentacao.Valor;
                 await AplicaProduto(movimentacao);
+                await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, ValorCalculadoIR);
             }
             else
             {
@@ -45,12 +46,15 @@ namespace Aliquota.Domain.Services.MovimentacaoService
                 ValorCalculadoIR = _calculoService.CalculoIR(dtAplicacao, movimentacao.DataOperacao, movimentacao.Lucro);
                 movimentacao.ValorImposto = ValorCalculadoIR;
                 await ResgataProduto(movimentacao);
+                await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, movimentacao.Valor);
+                
             }
-            await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, ValorCalculadoIR);
+            
         }
 
         public async Task AplicaProduto(HistoricoMovimentacao movimentacao)
         {
+            movimentacao.DataOperacao = DateTime.Now;
             await _repository.AddMovimentacao(movimentacao);
         }
 
@@ -64,6 +68,9 @@ namespace Aliquota.Domain.Services.MovimentacaoService
             await _produtoFinanceiroService.AtualizaValorProduto(idProduto, tipoOperacao, novoValor);
         }
 
-
+        public async Task<IEnumerable<HistoricoMovimentacao>> BuscaMovimentacoes()
+        {
+            return await _repository.GetMovimentacoes();
+        }
     }
 }

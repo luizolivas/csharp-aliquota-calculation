@@ -13,5 +13,6 @@ namespace Aliquota.Domain.Services.MovimentacaoService.Contracts
         Task AplicaProduto(HistoricoMovimentacao movimentacao);
         Task ResgataProduto(HistoricoMovimentacao movimentacao);
         Task AtualizaValor(int idProduto, TipoOperacao tipoOperacao, decimal novoValor);
+        Task<IEnumerable<HistoricoMovimentacao>> BuscaMovimentacoes();
     }
 }

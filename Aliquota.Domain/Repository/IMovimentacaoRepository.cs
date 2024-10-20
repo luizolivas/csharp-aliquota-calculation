@@ -10,5 +10,6 @@ namespace Aliquota.Domain.Repository
     public interface IMovimentacaoRepository
     {
         Task AddMovimentacao(HistoricoMovimentacao movimentacao);
+        Task<IEnumerable<HistoricoMovimentacao>> GetMovimentacoes();
     }
 }

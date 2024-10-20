@@ -58,6 +58,7 @@ namespace Aliquota.Domain.Services.ProdutoFinanceiroService
             else
             {
                 novoValor = prod.Valor - novoValor;
+                if(novoValor < 0) novoValor = 0;
             }
 
             

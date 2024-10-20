@@ -1,5 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Aliquota.Domain.Webapp.Models.MovimentacaoProdutoViewModel>
+
+<h2>Aplicações e Resgates</h2>
+<hr />
+
+<div class="panel panel-default">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                     Produto
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProdutoFinanceiroViewModel.NomeCliente)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DataOperacao)
+                </th>
+                <th>
+                    Valor Operação
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TipoOperacao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Lucro)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ValorImposto)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProdutoFinanceiroViewModel.Nome)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProdutoFinanceiroViewModel.NomeCliente)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DataOperacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Valor)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoOperacao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Lucro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ValorImposto)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
