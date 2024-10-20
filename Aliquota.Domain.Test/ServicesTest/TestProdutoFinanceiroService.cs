@@ -1,59 +1,69 @@
-﻿using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
-using Aliquota.Domain.Webapp.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Aliquota.Domain.Models;
+﻿using Aliquota.Domain.Models;
 using Aliquota.Domain.Repository;
 using Moq;
+using Xunit;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Aliquota.Domain.Services.ProdutoFinanceiroService.Contract;
 using Aliquota.Domain.Services.ProdutoFinanceiroService;
-
 
 namespace Aliquota.Domain.Test.ServicesTest
 {
     public class TestProdutoFinanceiroService
     {
-        private IProdutoFinanceiroService _produtoFinanceiroService;
-        private IProdutoFinaneiroRepository _produtoFinaneiroRepository;
-        private ApplicationDbContext _context;
+        private readonly Mock<IProdutoFinaneiroRepository> _mockRepository;
+        private readonly IProdutoFinanceiroService _produtoFinanceiroService;
 
         public TestProdutoFinanceiroService()
         {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
+            _mockRepository = new Mock<IProdutoFinaneiroRepository>();
 
-            _context = new ApplicationDbContext(options);
-
-            var mockRepository = new Mock<IProdutoFinaneiroRepository>();
-
-            mockRepository.Setup(repo => repo.AddProdutoFinanceiroAsync(It.IsAny<ProdutoFinanceiro>()))
-                .Callback<ProdutoFinanceiro>(prod => _context.ProdutoFinanceiro.Add(prod));
-
-            var produtoFinaneiroRepository = mockRepository.Object;
-
-            _produtoFinanceiroService = new ProdutoFinanceiroService(produtoFinaneiroRepository);
+            _produtoFinanceiroService = new ProdutoFinanceiroService(_mockRepository.Object);
         }
 
         [Fact]
-        public async Task Post_CreateProdutoFinanceiro()
+        public async Task AddProdutoFinanceiro_DeveChamarAdicionaProduto()
         {
             DateTime dtHj = DateTime.Now;
-            ProdutoFinanceiro prod = new ProdutoFinanceiro { Nome = "teste", Valor = 10, DataAplicacao = dtHj };
+            var produto = new ProdutoFinanceiro { Nome = "Teste", Valor = 100, DataAplicacao = dtHj };
 
-            await _produtoFinanceiroService.AddProduto(prod);
+            _mockRepository.Setup(repo => repo.AddProdutoFinanceiroAsync(It.IsAny<ProdutoFinanceiro>()))
+                .Returns(Task.CompletedTask);
 
-            ProdutoFinanceiro result = await _context.ProdutoFinanceiro.FindAsync(1);
+            await _produtoFinanceiroService.AddProduto(produto);
+
+            _mockRepository.Verify(repo => repo.AddProdutoFinanceiroAsync(It.Is<ProdutoFinanceiro>(p => p.Nome == "Teste" && p.Valor == 100)), Times.Once);
+        }
+
+        [Fact]
+        public async Task GetProdutoFinanceiroById_DeveRetornarProduto()
+        {
+            var produtoId = 1;
+            var produto = new ProdutoFinanceiro { Id = produtoId, Nome = "Produto Teste", Valor = 200 };
+
+            _mockRepository.Setup(repo => repo.GetProdutoFinanceiroByIdAsync(produtoId))
+                .ReturnsAsync(produto);
+
+            var result = await _produtoFinanceiroService.GetProdutobyId(produtoId);
 
             Assert.NotNull(result);
-            Assert.Equal(prod.Nome, result.Nome);
-            Assert.Equal(prod.Valor, result.Valor);
-            Assert.Equal(prod.DataAplicacao, result.DataAplicacao);
+            Assert.Equal(produtoId, result.Id);
+            Assert.Equal("Produto Teste", result.Nome);
+            Assert.Equal(200, result.Valor);
+        }
 
-            _context.Database.EnsureDeleted(); 
+        [Fact]
+        public async Task DeleteProdutoFinanceiro_DeveChamarDelete()
+        {
+            var produtoId = 1;
+
+            _mockRepository.Setup(repo => repo.DeleteProdutoFinanceiroAsync(produtoId))
+                .Returns(Task.CompletedTask);
+
+            await _produtoFinanceiroService.DeleteProduto(produtoId);
+
+            _mockRepository.Verify(repo => repo.DeleteProdutoFinanceiroAsync(produtoId), Times.Once);
         }
     }
 }
