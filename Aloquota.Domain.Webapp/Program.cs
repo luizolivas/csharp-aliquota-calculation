@@ -28,6 +28,7 @@ builder.Services.AddScoped<IMovimentacaoRepository, MovimentacaoRepository>();
 builder.Services.AddScoped<IMovimentacaoService, MovimentacaoService>();
 builder.Services.AddSingleton<IValidaMovimentacao, ValidaMovimentacao>();
 builder.Services.AddSingleton<ICalculoService, CalculoService>();
+builder.Services.AddScoped<IProvedorDateTime, ProvedorDateTime>();
 
 var app = builder.Build();
 

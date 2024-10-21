@@ -16,49 +16,65 @@ namespace Aliquota.Domain.Services.MovimentacaoService
         private readonly IValidaMovimentacao _validaMovimentacao;
         private readonly IProdutoFinanceiroService _produtoFinanceiroService;
         private readonly ICalculoService _calculoService;
+        private readonly IProvedorDateTime _provedorDateTime;
 
-
-        private decimal ValorCalculadoIR;
-
-        public MovimentacaoService(IMovimentacaoRepository repository, IValidaMovimentacao validaMovimentacao, IProdutoFinanceiroService produtoFinanceiroService, ICalculoService calculoService)
+        public MovimentacaoService(IMovimentacaoRepository repository, IValidaMovimentacao validaMovimentacao, IProdutoFinanceiroService produtoFinanceiroService, ICalculoService calculoService, IProvedorDateTime provedorDateTime)
         {
             _repository = repository;
             _validaMovimentacao = validaMovimentacao;
             _produtoFinanceiroService = produtoFinanceiroService;
             _calculoService = calculoService;
+            _provedorDateTime = provedorDateTime;
         }
 
-        public async Task ProcessaMovimentacao(HistoricoMovimentacao movimentacao)
+        #region Preparação e Validações
+        public async Task ProcessaResgate(HistoricoMovimentacao movimentacao)
         {
             ProdutoFinanceiro prod = await _produtoFinanceiroService.GetProdutobyId(movimentacao.ProdutoFinanceiroId);
             DateTime dtAplicacao = prod.DataAplicacao;
-            _validaMovimentacao.Valida(movimentacao, dtAplicacao);
-            
-            if(movimentacao.TipoOperacao == TipoOperacao.APLICACAO)
-            {
-                ValorCalculadoIR = movimentacao.Valor;
-                await AplicaProduto(movimentacao);
-                await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, ValorCalculadoIR);
-            }
-            else
-            {
-                movimentacao.Lucro = _calculoService.CalculaLucro(prod.Valor, movimentacao.Valor);
-                ValorCalculadoIR = _calculoService.CalculoIR(dtAplicacao, movimentacao.DataOperacao, movimentacao.Lucro);
-                movimentacao.ValorImposto = ValorCalculadoIR;
-                await ResgataProduto(movimentacao);
-                await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, movimentacao.Valor);
-                
-            }
-            
+            ValidaMovimentacao(movimentacao, dtAplicacao);
+
+
+            movimentacao.Lucro = _calculoService.CalculaLucro(prod.Valor, movimentacao.Valor);
+            decimal ValorCalculadoIR = _calculoService.CalculoIR(dtAplicacao, movimentacao.DataOperacao, movimentacao.Lucro);
+            movimentacao.ValorImposto = ValorCalculadoIR;
+
+            await RegistrarResgate(movimentacao);
+            await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, movimentacao.Valor);
         }
 
-        public async Task AplicaProduto(HistoricoMovimentacao movimentacao)
+        public async Task ProcessaAplicacao(HistoricoMovimentacao movimentacao)
         {
-            movimentacao.DataOperacao = DateTime.Now;
+            ProdutoFinanceiro prod = await _produtoFinanceiroService.GetProdutobyId(movimentacao.ProdutoFinanceiroId);
+            DateTime dtAplicacao = prod.DataAplicacao;
+            ValidaMovimentacao(movimentacao, dtAplicacao);
+
+            decimal ValorCalculadoIR = movimentacao.Valor;
+            await RegistrarAplicacao(movimentacao);
+            await AtualizaValor(movimentacao.ProdutoFinanceiroId, movimentacao.TipoOperacao, ValorCalculadoIR);
+        }
+
+        private void ValidaMovimentacao(HistoricoMovimentacao movimentacao, DateTime dtAplicacao)
+        {
+            _validaMovimentacao.Valida(movimentacao, dtAplicacao);
+        }
+
+        #endregion
+
+        #region Execuções com banco
+
+        public async Task<IEnumerable<HistoricoMovimentacao>> BuscaMovimentacoes()
+        {
+            return await _repository.GetMovimentacoes();
+        }
+
+        public async Task RegistrarAplicacao(HistoricoMovimentacao movimentacao)
+        {
+            movimentacao.DataOperacao = _provedorDateTime.Now;
             await _repository.AddMovimentacao(movimentacao);
         }
 
-        public async Task ResgataProduto(HistoricoMovimentacao movimentacao)
+        public async Task RegistrarResgate(HistoricoMovimentacao movimentacao)
         {
             await _repository.AddMovimentacao(movimentacao);
         }
@@ -68,9 +84,6 @@ namespace Aliquota.Domain.Services.MovimentacaoService
             await _produtoFinanceiroService.AtualizaValorProduto(idProduto, tipoOperacao, novoValor);
         }
 
-        public async Task<IEnumerable<HistoricoMovimentacao>> BuscaMovimentacoes()
-        {
-            return await _repository.GetMovimentacoes();
-        }
+        #endregion
     }
 }

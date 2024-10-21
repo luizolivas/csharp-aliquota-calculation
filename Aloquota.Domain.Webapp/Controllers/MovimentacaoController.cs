@@ -48,7 +48,7 @@ namespace Aliquota.Domain.Webapp.Controllers
                     HistoricoMovimentacao historico = MovimentacaoMapper.ToModel(movimentacaoProdutoView);
                     historico.ProdutoFinanceiroId = Id;
                     historico.TipoOperacao = TipoOperacao.APLICACAO;
-                    await _movimentacaoService.ProcessaMovimentacao(historico);
+                    await _movimentacaoService.ProcessaAplicacao(historico);
                     return RedirectToAction("Index", "ProdutoFinanceiro");
                 }
 
@@ -87,7 +87,7 @@ namespace Aliquota.Domain.Webapp.Controllers
                     HistoricoMovimentacao historico = MovimentacaoMapper.ToModel(movimentacaoProdutoView);
                     historico.ProdutoFinanceiroId = Id;
                     historico.TipoOperacao = TipoOperacao.RESGATE;
-                    await _movimentacaoService.ProcessaMovimentacao(historico);
+                    await _movimentacaoService.ProcessaResgate(historico);
                     return RedirectToAction("Index", "ProdutoFinanceiro");
                 }
 
